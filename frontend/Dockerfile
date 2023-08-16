@@ -2,10 +2,8 @@ FROM node:alpine
 
 WORKDIR /app
 
-COPY package.json .
-RUN npm i
-
-COPY . .
+COPY package*.json /app
+RUN npm ci
 
 EXPOSE 3000
 
