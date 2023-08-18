@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import Todo from './pages/Todo';
-import NotFound from './pages/Error';
+import NotFound from './pages/Error/NotFound';
 import Home from './pages/Home';
 
 function App() {
