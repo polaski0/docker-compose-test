@@ -10,18 +10,10 @@ const AddTodo = ({ dispatch }: { dispatch: React.Dispatch<React.SetStateAction<T
 
   const handleSubmit = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
+      // Send to backend and wait for the response.
       dispatch((prev: Todo[]) => {
-        const LARGEST_ID = prev.reduce((acc, curr) => {
-          return Math.max(acc, curr._id);
-        }, 0);
-
         return [
-          ...prev,
-          {
-            _id: LARGEST_ID + 1,
-            text: todo,
-            is_checked: false
-          }
+          ...prev
         ];
       });
 
