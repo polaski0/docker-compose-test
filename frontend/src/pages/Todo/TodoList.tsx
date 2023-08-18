@@ -8,11 +8,11 @@ import { mockTodos } from "../../mocks/MockTodo";
 const TodoList = () => {
   const [todos, setTodos] = React.useState<Todo[]>(mockTodos);
 
-  const handleUpdate = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
+  const handleUpdate = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
     const toggleable = ['checkbox', 'radio'];
 
-    setTodos(todos.map((todo, index) => {
-      if (idx == index) {
+    setTodos(todos.map((todo) => {
+      if (id == todo._id) {
         const key: string = e.target.name;
 
         if (toggleable.includes(e.target.type)) {
@@ -32,27 +32,35 @@ const TodoList = () => {
     }));
   };
 
+  const handleDelete = (id: number) => {
+    setTodos(todos.filter((todo) => todo._id !== id));
+  };
+
   return (
     <div className="flex justify-center w-full -mt-32">
       <div className="flex flex-col gap-4 w-full">
         <AddTodo dispatch={setTodos} />
-        <div className="w-full overflow-auto max-h-[32rem] hide-scrollbar rounded-lg bg-slate-800 border border-slate-700 divide-y divide-slate-700">
-          {
-            todos.map((item, index) => {
-              return (
-                <div className="w-full p-4 flex flex-row justify-between items-center gap-6" key={item._id}>
-                  <div className="flex flex-row gap-4 flex-1">
-                    <input onChange={(e) => handleUpdate(e, index)} type="checkbox" name="is_checked" checked={item.is_checked} />
-                    <input onChange={(e) => handleUpdate(e, index)} type="text" name="text" className={`${item.is_checked ? "line-through" : ""} bg-transparent w-full overflow-ellipsis h-full outline-none`} value={item.text} />
-                  </div>
-                  <div className="flex flex-row gap-4">
-                    <Button className="text-red-500 px-4 py-2 outline outline-1 outline-red-500 rounded-md hover:bg-red-500 hover:text-white transition-all duration-200">Delete</Button>
-                  </div>
-                </div>
-              )
-            })
-          }
-        </div>
+        {
+          todos.length ? (
+            <div className="w-full overflow-auto max-h-[32rem] rounded-lg bg-slate-800 border border-slate-700 divide-y divide-slate-700">
+              {
+                todos.map((item) => {
+                  return (
+                    <div className="w-full p-4 flex flex-row justify-between items-center gap-6" key={item._id}>
+                      <div className="flex flex-row gap-4 flex-1">
+                        <input onChange={(e) => handleUpdate(e, item._id)} type="checkbox" name="is_checked" checked={item.is_checked} />
+                        <input onChange={(e) => handleUpdate(e, item._id)} type="text" name="text" className={`${item.is_checked ? "line-through" : ""} bg-transparent w-full overflow-ellipsis h-full outline-none`} value={item.text} />
+                      </div>
+                      <div className="flex flex-row gap-4">
+                        <Button onClick={() => handleDelete(item._id)} variant="danger">Delete</Button>
+                      </div>
+                    </div>
+                  )
+                })
+              }
+            </div>
+          ) : null
+        }
       </div>
     </div>
   )

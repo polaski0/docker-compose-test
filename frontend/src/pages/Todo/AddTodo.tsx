@@ -13,7 +13,7 @@ const AddTodo = ({ dispatch }: { dispatch: React.Dispatch<React.SetStateAction<T
       // Send to backend and wait for the response.
       dispatch((prev: Todo[]) => {
         return [
-          ...prev
+          ...prev,
         ];
       });
 
