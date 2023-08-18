@@ -1,19 +1,9 @@
 import React from "react";
 import Button from "../../components/Button";
+import AddTodo from "./AddTodo";
 
-interface Todo {
-  id: number;
-  text: string;
-  is_checked: boolean;
-};
-
-const mockTodos: Todo[] = new Array(10).fill(null).map((_, index: number) => {
-  return {
-    id: index + 1,
-    text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia sunt voluptatibus neque dolore error unde atque soluta excepturi non magni?",
-    is_checked: index % 2 == 0 ? true : false,
-  };
-});
+import { Todo } from "../../types/Todo";
+import { mockTodos } from "../../mocks/MockTodo";
 
 const TodoList = () => {
   const [todos, setTodos] = React.useState<Todo[]>(mockTodos);
@@ -43,16 +33,17 @@ const TodoList = () => {
   };
 
   return (
-    <div className="flex justify-center w-full -mt-16">
-      <div className="w-2/4">
+    <div className="flex justify-center w-full -mt-32">
+      <div className="flex flex-col gap-4 w-full">
+        <AddTodo dispatch={setTodos} />
         <div className="w-full overflow-auto max-h-[32rem] hide-scrollbar rounded-lg bg-slate-800 border border-slate-700 divide-y divide-slate-700">
           {
             todos.map((item, index) => {
               return (
-                <div className="w-full p-4 flex flex-row justify-between items-center gap-6" key={item.id}>
+                <div className="w-full p-4 flex flex-row justify-between items-center gap-6" key={item._id}>
                   <div className="flex flex-row gap-4 flex-1">
                     <input onChange={(e) => handleUpdate(e, index)} type="checkbox" name="is_checked" checked={item.is_checked} />
-                    <input onChange={(e) => handleUpdate(e, index)} type="text" name="text" className={`${item.is_checked ? "line-through" : ""} bg-transparent w-full overflow-ellipsis`} value={item.text} />
+                    <input onChange={(e) => handleUpdate(e, index)} type="text" name="text" className={`${item.is_checked ? "line-through" : ""} bg-transparent w-full overflow-ellipsis h-full outline-none`} value={item.text} />
                   </div>
                   <div className="flex flex-row gap-4">
                     <Button className="text-red-500 px-4 py-2 outline outline-1 outline-red-500 rounded-md hover:bg-red-500 hover:text-white transition-all duration-200">Delete</Button>

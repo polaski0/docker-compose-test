@@ -4,9 +4,7 @@ import TodoList from "./TodoList";
 const Header = () => {
     return (
         <div className="bg-gradient-to-tr from-indigo-700 to-cyan-400 w-screen h-96 flex justify-center items-center">
-            <div className="w-2/4">
-                <h1 className='font-bold text-6xl tracking-[1rem]'>TODO</h1>
-            </div>
+            <h1 className='font-bold text-6xl tracking-[1rem]'>TODO</h1>
         </div>
     )
 };
@@ -18,7 +16,9 @@ const Todo = () => {
 
             <div className='flex flex-col relative'>
                 <Header />
-                <TodoList />
+                <div className="w-[90%] lg:w-2/4 self-center">
+                    <TodoList />
+                </div>
             </div>
         </>
     )
