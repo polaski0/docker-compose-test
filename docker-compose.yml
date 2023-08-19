@@ -19,7 +19,6 @@ services:
     depends_on:
       - db
   db:
-    restart: always
     image: mongo
     ports:
       - 27017:27017

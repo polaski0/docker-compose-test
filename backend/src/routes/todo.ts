@@ -1,4 +1,5 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import { get, show, insert, update, destroy } from '../controllers/todo';
 
 const todoRoutes = () => {
     const router = express.Router();
@@ -11,27 +12,6 @@ const todoRoutes = () => {
     router.delete('/:id', destroy);
 
     return router;
-};
-
-const get = async (req: Request, res: Response): Promise<Response> => {
-    // code here...
-    return res.status(200).json({ 'foo': 'bar' });
-};
-
-const show = async () => {
-    // code here...
-};
-
-const insert = async () => {
-    // code here...
-};
-
-const update = async () => {
-    // code here...
-};
-
-const destroy = async () => {
-    // code here...
 };
 
 export { todoRoutes };
