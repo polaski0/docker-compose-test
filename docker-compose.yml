@@ -19,11 +19,12 @@ services:
     depends_on:
       - db
   db:
-    image: mongo:4.0-xenial
+    restart: always
+    image: mongo
     ports:
       - 27017:27017
     volumes:
-      - test:/data/db
+      - mongo-express:/data/db
 
 volumes:
-  test:
+  mongo-express:
