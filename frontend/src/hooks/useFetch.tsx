@@ -1,24 +1,27 @@
-import React, { useEffect } from 'react'
+import React from "react";
 
 interface Props {
-    url?: string;
-}
+    url?: string | URL;
+    params: string;
+    config: RequestInit;
+};
 
-export const useFetch = ({ url }: Props) => {
+const BASE_PATH = "http://localhost:3001/";
+
+export const useFetch = ({ url, params, config }: Props) => {
     const [data, setData] = React.useState<any>(null);
-    const [error, setError] = React.useState<{} | null>(null);
+    const [error, setError] = React.useState<any>(null);
 
-    const PATH = url || '';
-    const options: RequestInit = {};
+    const PATH = url || BASE_PATH + params;
 
     const fetchData = async () => {
         try {
-            const request = await fetch(PATH, options);
+            const request = await fetch(PATH, config);
 
             if (!request.ok) {
                 const err = {
-                    'errorNumber': request.status,
-                    'statusText': request.statusText
+                    "errorNumber": request.status,
+                    "statusText": request.statusText
                 }
 
                 throw err;
@@ -34,7 +37,7 @@ export const useFetch = ({ url }: Props) => {
 
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         fetchData();
     }, []);
 

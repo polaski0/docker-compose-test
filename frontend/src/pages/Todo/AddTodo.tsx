@@ -1,19 +1,27 @@
 import React from 'react';
 import { Todo } from '../../types/Todo';
+import { TodoService } from '../../services/TodoService';
 
 const AddTodo = ({ dispatch }: { dispatch: React.Dispatch<React.SetStateAction<Todo[]>> }) => {
   const [todo, setTodo] = React.useState('');
+  const service = TodoService();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodo(e.target.value);
   };
 
-  const handleSubmit = (e: React.KeyboardEvent) => {
+  const handleSubmit = async (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      // Send to backend and wait for the response.
+      const payload = {
+        text: todo
+      };
+
+      const response: Todo = await service.insertTodo(payload);
+
       dispatch((prev: Todo[]) => {
         return [
           ...prev,
+          response
         ];
       });
 
