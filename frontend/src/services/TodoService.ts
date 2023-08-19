@@ -1,6 +1,6 @@
 import { apiCall } from "../utils/ApiUtils";
 
-export const TodoService = (url: string | URL = 'http://localhost:3001/todo') => {
+export const TodoService = (url: string | URL = 'http://localhost:3001/api/todo') => {
     const BASE_URL = url;
 
     // Get all
