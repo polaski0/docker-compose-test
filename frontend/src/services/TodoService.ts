@@ -1,11 +1,26 @@
 import { apiCall } from "../utils/ApiUtils";
 
-export const TodoService = (url: string | URL = 'http://localhost:3001/api/todo') => {
+export const TodoService = (url: RequestInfo | URL = 'http://localhost:3001/api/todo') => {
     const BASE_URL = url;
 
     // Get all
     const getTodos = async (): Promise<any> => {
-        // code here...
+        const config: RequestInit = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        };
+
+        try {
+            const request = await apiCall(BASE_URL, config);
+
+            if (request.ok) {
+                return await request.json();
+            }
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     // Get one
@@ -15,12 +30,44 @@ export const TodoService = (url: string | URL = 'http://localhost:3001/api/todo'
 
     // Insert new
     const insertTodo = async (payload: Object): Promise<any> => {
-        // code here...
+        const config: RequestInit = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        };
+
+        try {
+            const request = await apiCall(BASE_URL, config);
+
+            if (request.ok) {
+                return await request.json();
+            }
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     // Update existing
     const updateTodo = async (id: string, payload: Object): Promise<any> => {
-        // code here...
+        const config: RequestInit = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        };
+
+        try {
+            const request = await apiCall(BASE_URL + '/' + id, config);
+
+            if (request.ok) {
+                return await request.json();
+            }
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     // Delete existing

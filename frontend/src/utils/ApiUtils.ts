@@ -1,6 +1,6 @@
-export const apiCall = async (url: string, config: RequestInit): Promise<any> => {
+export const apiCall = async (input: URL | RequestInfo, init: RequestInit): Promise<any> => {
     try {
-        const request = await fetch(url, config);
+        const request = await fetch(input, init);
 
         if (!request.ok) {
             const error = {
@@ -11,10 +11,19 @@ export const apiCall = async (url: string, config: RequestInit): Promise<any> =>
             throw error;
         }
 
-        return await request.json();
+        return request;
     } catch (error) {
         if (error instanceof Error) {
             return error;
         }
     }
 };
+
+export const debounce = (callback: any, ms: number) => {
+    let timeout: ReturnType<typeof setTimeout>;
+
+    return () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(callback, ms);
+    };
+}

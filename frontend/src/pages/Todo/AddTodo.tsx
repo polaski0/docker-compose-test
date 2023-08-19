@@ -18,12 +18,14 @@ const AddTodo = ({ dispatch }: { dispatch: React.Dispatch<React.SetStateAction<T
 
       const response: Todo = await service.insertTodo(payload);
 
-      dispatch((prev: Todo[]) => {
-        return [
-          ...prev,
-          response
-        ];
-      });
+      if (response) {
+        dispatch((prev: Todo[]) => {
+          return [
+            ...prev,
+            response
+          ];
+        });
+      }
 
       setTodo('');
     }
