@@ -1,35 +1,24 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Button from "../../components/Button";
 import AddTodo from "./AddTodo";
 
 import { Todo } from "../../types/Todo";
 import { TodoService } from "../../services/TodoService";
-// import { debounce } from "../../utils/ApiUtils";
+import { debounce } from "../../utils/ApiUtils";
 
 const TodoList = () => {
   const [todos, setTodos] = React.useState<Todo[]>([]);
   const service = TodoService();
-
-  // const handleUpdate = React.useCallback((id: string) => {
-  //   const payload = todos.find((item) => item._id === id);
-
-  //   console.log(payload);
-  //   // if (payload) {
-  //   //   const response = service.updateTodo(id, payload);
-  //   // }
-  // }, []);
-
-  // const debounceRequest = React.useMemo(() => {
-  //   return debounce(handleUpdate, 1000);
-  // }, [handleUpdate]);
+  const debouncedRef = React.useRef<Todo>({} as Todo);
+  const debounceReq = useCallback(debounce(handleUpdate, 500), []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
     const toggleable = ['checkbox', 'radio'];
+    let value: Todo = {} as Todo;
 
-    setTodos(todos.map((todo) => {
+    const newTodos = todos.map((todo) => {
       if (id == todo._id) {
         const key: string = e.target.name;
-        let value: Todo = {} as Todo;
 
         if (toggleable.includes(e.target.type)) {
           value = {
@@ -37,7 +26,6 @@ const TodoList = () => {
             [key]: e.target.checked
           };
 
-          handleUpdate(value);
           return value;
         }
 
@@ -46,22 +34,35 @@ const TodoList = () => {
           [key]: e.target.value
         };
 
-        handleUpdate(value);
         return value;
       }
 
       return todo;
-    }));
+    });
+
+
+    debouncedRef.current = value;
+
+    debounceReq();
+
+    setTodos(newTodos);
   };
 
-  const handleUpdate = (payload: Todo) => {
-    if (payload) {
-      const response = service.updateTodo(payload._id, payload);
+  async function handleUpdate() {
+    const payload = debouncedRef.current;
+
+    if (payload && Object.entries(payload).length) {
+      await service.updateTodo(payload._id, payload);
+      debouncedRef.current = {} as Todo;
     }
-  };
+  }
 
-  const handleDelete = (id: string) => {
-    setTodos(todos.filter((todo) => todo._id !== id));
+  const handleDelete = async (id: string) => {
+    const response = await service.deleteTodo(id);
+
+    if (response) {
+      setTodos(todos.filter((todo) => todo._id !== id));
+    }
   };
 
   const fetchData = async () => {
