@@ -122,7 +122,22 @@ const update = async (req: Request, res: Response) => {
 };
 
 const destroy = async (req: Request, res: Response) => {
-    // code here...
+    const id: ObjectId | null = req.params.id ? new ObjectId(req.params.id) : null;
+
+    if (!id) {
+        return res.status(400).json(generateMessage("Invalid format."));
+    }
+
+    await connectDb();
+
+    try {
+        const result = await db.collection(COLLECTION_NAME).deleteOne({ _id: id });
+        return res.status(200).json(result);
+    } catch (error) {
+        handleError(error, res);
+    }
+
+    await closeDb();
     return res.status(404).json(generateMessage("No data found."));
 };
 

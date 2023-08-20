@@ -3,7 +3,11 @@ import { apiCall } from "../utils/ApiUtils";
 export const TodoService = (url: RequestInfo | URL = 'http://localhost:3001/api/todo') => {
     const BASE_URL = url;
 
-    // Get all
+    /**
+     * Get all resources
+     * 
+     * @returns {Promise<any>}
+     */
     const getTodos = async (): Promise<any> => {
         const config: RequestInit = {
             method: 'GET',
@@ -23,12 +27,37 @@ export const TodoService = (url: RequestInfo | URL = 'http://localhost:3001/api/
         }
     };
 
-    // Get one
+    /**
+     * Get single resource
+     * 
+     * @param {string} id
+     * @returns {Promise<any>}
+     */
     const getTodo = async (id: string): Promise<any> => {
-        // code here...
+        const config: RequestInit = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        };
+
+        try {
+            const request = await apiCall(BASE_URL + '/' + id, config);
+
+            if (request.ok) {
+                return await request.json();
+            }
+        } catch (error) {
+            console.error(error);
+        }
     };
 
-    // Insert new
+    /**
+     * Create a new resource
+     * 
+     * @param {Object} payload
+     * @returns {Promise<any>}
+     */
     const insertTodo = async (payload: Object): Promise<any> => {
         const config: RequestInit = {
             method: 'POST',
@@ -49,7 +78,13 @@ export const TodoService = (url: RequestInfo | URL = 'http://localhost:3001/api/
         }
     };
 
-    // Update existing
+    /**
+     * Update an existing resource
+     * 
+     * @param {string} id
+     * @param {Object} payload
+     * @returns {Promise<any>}
+     */
     const updateTodo = async (id: string, payload: Object): Promise<any> => {
         const config: RequestInit = {
             method: 'PUT',
@@ -70,16 +105,30 @@ export const TodoService = (url: RequestInfo | URL = 'http://localhost:3001/api/
         }
     };
 
-    // Delete existing
+    /**
+     * Delete an existing resource
+     * 
+     * @param {string} id
+     * @returns {Promise<any>}
+     */
     const deleteTodo = async (id: string): Promise<any> => {
-        // code here...
-    };
+        const config: RequestInit = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
 
-    // GET / users: This route returns a list of all users.
-    // GET / users /: id: This route returns a single user by ID.
-    // POST / users: This route creates a new user.
-    // PUT / users /: id: This route updates an existing user.
-    // DELETE / users /: id: This route deletes an existing user.
+        try {
+            const request = await apiCall(BASE_URL + '/' + id, config);
+
+            if (request.ok) {
+                return await request.json();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return {
         getTodos: () => getTodos(),
