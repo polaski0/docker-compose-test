@@ -1,6 +1,6 @@
 import { apiCall } from "../utils/ApiUtils";
 
-export const TodoService = (url: RequestInfo | URL = 'http://localhost:3001/api/todo') => {
+export const TodoService = (url: RequestInfo | URL = import.meta.env.VITE_BASE_PATH + '/todo') => {
     const BASE_URL = url;
 
     /**
