@@ -19,6 +19,10 @@ export const TodoService = (url: RequestInfo | URL = 'http://localhost:3001/api/
         try {
             const request = await apiCall(BASE_URL, config);
 
+            if (!request || request instanceof Error) {
+                throw request ?? new Error('Undefined');
+            }
+
             if (request.ok) {
                 return await request.json();
             }
@@ -43,6 +47,10 @@ export const TodoService = (url: RequestInfo | URL = 'http://localhost:3001/api/
 
         try {
             const request = await apiCall(BASE_URL + '/' + id, config);
+
+            if (!request || request instanceof Error) {
+                throw request ?? new Error('Undefined');
+            }
 
             if (request.ok) {
                 return await request.json();
@@ -69,6 +77,10 @@ export const TodoService = (url: RequestInfo | URL = 'http://localhost:3001/api/
 
         try {
             const request = await apiCall(BASE_URL, config);
+
+            if (!request || request instanceof Error) {
+                throw request ?? new Error('Undefined');
+            }
 
             if (request.ok) {
                 return await request.json();
@@ -97,6 +109,10 @@ export const TodoService = (url: RequestInfo | URL = 'http://localhost:3001/api/
         try {
             const request = await apiCall(BASE_URL + '/' + id, config);
 
+            if (!request || request instanceof Error) {
+                throw request ?? new Error('Undefined');
+            }
+
             if (request.ok) {
                 return await request.json();
             }
@@ -121,6 +137,10 @@ export const TodoService = (url: RequestInfo | URL = 'http://localhost:3001/api/
 
         try {
             const request = await apiCall(BASE_URL + '/' + id, config);
+
+            if (!request || request instanceof Error) {
+                throw request ?? new Error('Undefined');
+            }
 
             if (request.ok) {
                 return await request.json();

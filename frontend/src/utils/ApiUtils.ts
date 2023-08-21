@@ -1,4 +1,4 @@
-export const apiCall = async (input: URL | RequestInfo, init: RequestInit): Promise<any> => {
+export const apiCall = async (input: URL | RequestInfo, init: RequestInit): Promise<Response | Error | undefined> => {
     try {
         const request = await fetch(input, init);
 
